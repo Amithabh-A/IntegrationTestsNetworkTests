@@ -16,3 +16,4 @@
 /Users/amithabh_a/Projects/IntegrationTests/NetworkTests/obj/Debug/net8.0/NetworkTests.pdb
 /Users/amithabh_a/Projects/IntegrationTests/NetworkTests/obj/Debug/net8.0/NetworkTests.genruntimeconfig.cache
 /Users/amithabh_a/Projects/IntegrationTests/NetworkTests/obj/Debug/net8.0/ref/NetworkTests.dll
+/Users/amithabh_a/Projects/IntegrationTests/NetworkTests/obj/Debug/net8.0/NetworkTests.sourcelink.json
