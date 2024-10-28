@@ -214,7 +214,6 @@ public class ClientNotificationHandler : NotificationHandler
         string? serializedDataPacket = Utils.SerializeObject(dataPacketToSend);
 
         // Send NOTE
-
     }
 }
 
@@ -291,7 +290,6 @@ public class ServerNotificationHandler : NotificationHandler
 
         // Send  NOTE
     }
-
 
     private static void ClientFilesHandler(DataPacket dataPacket)
     {
