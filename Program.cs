@@ -141,9 +141,31 @@ public class ClientNotificationHandler : NotificationHandler
         // Not used on client side
     }
 
-    public static void BroadcastHandler(DataPacket dataPacket)
+    private static void BroadcastHandler(DataPacket dataPacket)
     {
-        // Console.WriteLine("Broadcast packet received.");
+        // file list
+        List<FileContent> fileContentList = dataPacket.GetFileContentList();
+
+        // difference file
+        FileContent differenceFile = fileContentList[0];
+
+        // get files
+        foreach (FileContent fileContent in fileContentList)
+        {
+            if (fileContent == differenceFile)
+            {
+                continue;
+            }
+            string content = Utils.DeserializeObject<string>(fileContent.SerializedContent);
+            string filePath = Path.Combine(@"C:\Temp", fileContent.FileName);
+            bool status = Utils.WriteToFile(filePath, content);
+            if (!status)
+            {
+                throw new Exception("Failed to write file");
+            }
+        }
+
+        // Thats it. The end
     }
 
     public static void DifferencesHandler(DataPacket dataPacket)
