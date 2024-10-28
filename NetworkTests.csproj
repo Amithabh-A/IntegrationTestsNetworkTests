@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SoftwareEngineering2024\Network\Network.csproj" />
+    <ProjectReference Include="..\..\DataPacketConsole\DataPacket\DataPacket.csproj" />
+    <ProjectReference Include="..\..\UtilsConsole\Utils\Utils.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

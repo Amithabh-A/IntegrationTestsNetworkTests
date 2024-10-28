@@ -75,24 +75,6 @@ class Program
 public class DirectoryMetadataGenerator
 {
     private List<FileMetadata>? _metadata;
-    // static void Main(string[] args)
-    // {
-    //     if (args.Length != 1)
-    //     {
-    //         Console.WriteLine("Usage: dotnet run <directory-path>");
-    //         return;
-    //     }
-
-    //     string directoryPath = args[0];
-
-    //     if (!Directory.Exists(directoryPath))
-    //     {
-    //         Console.WriteLine($"Directory does not exist: {directoryPath}");
-    //         return;
-    //     }
-
-    //     CreateMetadataFile(directoryPath);
-    // }
 
     /// <summary>
     /// Creates a metadata file in the specified directory containing the hash of each file in the directory.
@@ -202,8 +184,9 @@ public class DirectoryMetadataComparer
     /// </summary>
     /// <param name="metadataFilePathA">Path to the metadata file for directory A.</param>
     /// <param name="metadataFilePathB">Path to the metadata file for directory B.</param>
+    /// <param name="writeToFile">Whether to write the differences to a file.</param>
     /// <returns> A new instance of the <see cref="DirectoryMetadataComparer"/> class.</returns>
-    public DirectoryMetadataComparer(string metadataFilePathA, string metadataFilePathB)
+    public DirectoryMetadataComparer(string metadataFilePathA, string metadataFilePathB, bool writeToFile = false)
     {
 
         if (!FilesExist(metadataFilePathA, metadataFilePathB))
@@ -215,7 +198,11 @@ public class DirectoryMetadataComparer
         List<FileMetadata> metadataB = LoadMetadata(metadataFilePathB);
 
         Dictionary<int, List<object>> differences = CompareMetadata(metadataA, metadataB);
-        WriteDifferencesToFile(differences, "differences.json");
+
+        if (writeToFile)
+        {
+            WriteDifferencesToFile(differences, "differences.json");
+        }
     }
 
 
@@ -396,20 +383,32 @@ public class FileMetadata
     public string FileHash { get; set; }
 }
 
+public class FileContent
+{
+    public string FileName { get; set; }
+    public string Content { get; set; }
+}
+
 public class Utils
 {
     // please check whether filePath is valid first. 
-    static string ReadFileContent(string filePath)
+    static FileContent ReadFileContent(string filePath)
     {
-        return File.ReadAllText(filePath);
+        string content = File.ReadAllText(filePath);
+        return new FileContent { FileName = Path.GetFileName(filePath), Content = content };
     }
 
     // please check whether everything is valid. 
-    static bool WriteContentToFile(string content, string outputFilePath)
+    static bool WriteContentToFile(FileContent file, string? outputFilePath = null)
     {
+        if (outputFilePath == null)
+        {
+            outputFilePath = file.FileName;
+        }
+
         try
         {
-            File.WriteAllText(outputFilePath, content);
+            File.WriteAllText(outputFilePath, file.Content);
             return true;
         }
         catch (IOException ex)
